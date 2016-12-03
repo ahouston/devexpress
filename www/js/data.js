@@ -10,6 +10,54 @@ var contacts = [
     { name: "Barbara M. Roberts", phone: "614-365-7945", image: "img/employees/08.png", email: "BarbaraMRoberts@armyspy.com", category: "Outgoing call" }
 ];
 
+var formFields = [ "firstName", "lastName", "emailAddress", "phoneNumber", "houseNumber", "streetName","suburbName","estateComplex","estateOther","windDirection","sideEffects","otherEffects","smellType","comments","fileAttachment","incidentDate","authorityRating"];
+
+var now = new Date();
+
+    var suburbData = [{ "name": "Alabama", "capital": "Montgomery" },
+    { "name": "Alaska", "capital": "Juneau" },
+    { "name": "Arizona", "capital": "Phoenix" }];
+    var estateData = [{name: "Moo"}, {name: "Oink"}];
+    var windData = [ "N", "NNW"];
+    var sideEffects = [];
+
+var jobArrayPODTab = [{
+  guid: 0,
+  name: "<<New Order>>"
+}, {
+  guid: 1,
+  name: "Job 1"
+}, {
+  guid: 2,
+  name: "Job 2"
+}];
+
+var formDataItems = [
+                { dataField     : "firstName",          editorOptions: { disabled: false},},
+                { dataField     : "lastName",           editorOptions: { disabled: false},},
+                { dataField     : "emailAddress",       editorOptions: { disabled: false},},
+                { dataField     : "phoneNumber",        editorOptions: { disabled: false},},
+                { dataField     : "houseNumber",        editorOptions: { disabled: false},},
+                { dataField     : "streetName",         editorOptions: { disabled: false},},
+                { dataField     : "suburbName",         editorType: "dxSelectBox", editorOptions: {
+      dataSource: jobArrayPODTab,
+      valueExpr: 'guid',
+      displayExpr: 'name',      
+      width: 200,
+    }},
+/*                { dataField     : "estateComplex",      editorType: "dxSelectBox", editorOptions: { items: estateData, value: ""}},
+                { dataField     : "estateOther",        editorOptions: { disabled: false},},
+                { dataField     : "windDirection",      editorType: "dxSelectBox", editorOptions: { items: windData, value: ""},validationRules: [{ type: "required", message: "Wind Direction is required"}]},
+                { dataField     : "sideEffects",        editorType: "dxCheckBox",  editorOptions: { items: sideEffects, value: ""},validationRules: [{ type: "required", message: "Side Effects required"}]},
+                { dataField     : "otherEffects",       editorOptions: { disabled: false},},
+                { dataField     : "smellType",          editorType: "dxSelectBox", editorOptions: { items: windData, value: ""},validationRules: [{ type: "required", message: "Smell is required"}]},
+                { dataField     : "otherEffects",       editorType: "dxTextArea",  editorOptions: { disabled: false},},
+                { dataField     : "fileAttachment",     editorType: "dxFileUploader",  editorOptions: { disabled: false},},
+                { dataField     : "incidentDate",       editorType: "dxDateBox",  editorOptions: { type: "datetime", value: now},},
+                { dataField     : "authorityRating",    editorType: "dxSlider",   editorOptions: { min:0, max:5, tooltip: {enabled: true,showMode:"always",position:"bottom"}},},
+*/
+];
+
 var navData = [{
         text: "Contacts",
         icon: "user"

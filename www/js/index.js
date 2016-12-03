@@ -34,16 +34,29 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        var list = $("#list").dxList({ 
+            dataSource: listData[0].data,
+            itemTemplate: $("#item-template")
+        }).dxList("instance");
+
+    $("#navbar").dxNavBar({
+            dataSource: navData,
+            selectedIndex: 0,
+                onItemClick: function(e) {
+                list.option("dataSource", listData[e.itemIndex].data);
+            }
+    });
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+        //var listeningElement = parentElement.querySelector('.listening');
+        //var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        //listeningElement.setAttribute('style', 'display:none;');
+        //receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+        //console.log('Received Event: ' + id);
     }
 };

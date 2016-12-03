@@ -21,16 +21,4 @@ var listData = [
     }
 ];
 
-var list = $("#list").dxList({ 
-    dataSource: listData[0].data,
-    itemTemplate: $("#item-template")
-}).dxList("instance");
-
-$("#navbar").dxNavBar({
-  dataSource: navData,
-  selectedIndex: 0,
-  onItemClick: function(e) {
-      list.option("dataSource", listData[e.itemIndex].data);
-  }
-});
 

@@ -21,6 +21,11 @@ var listData = [
     }
 ];
 
+var tabPages = [
+    { id: "#form"},
+    { id: "#places"},
+    { id: "#people"}
+]
 
 var list;
 
@@ -30,13 +35,19 @@ var initDashboard = function() {
         dataSource: listData[0].data,
         itemTemplate: $("#item-template")
     }).dxList("instance");
-
+    var lastIndex = 0;
     $("#navbar").dxNavBar({
             dataSource: navData,
             selectedIndex: 0,
                 onItemClick: function(e) {
-                list.option("dataSource", listData[e.itemIndex].data);
-            }
+                  var newIndex = e.component.option("selectedIndex");
+                  var lastDivId = tabPages[lastIndex].id;
+                  var newDivId = tabPages[newIndex].id;
+                  $(lastDivId).hide();
+                  $(newDivId).show();
+                  lastIndex = newIndex;
+                   console.log("Selected tab",e.component.option("selectedIndex"));
+            },
     });
     console.log("Making form!");
     

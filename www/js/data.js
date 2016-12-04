@@ -14,10 +14,8 @@ var formFields = [ "firstName", "lastName", "emailAddress", "phoneNumber", "hous
 
 var now = new Date();
 
-    var suburbData = [{ "name": "Alabama", "capital": "Montgomery" },
-    { "name": "Alaska", "capital": "Juneau" },
-    { "name": "Arizona", "capital": "Phoenix" }];
-    var estateData = [{name: "Moo"}, {name: "Oink"}];
+    var suburbData = ["Kloof","Hillcrest"];
+    var estateData = ["Plantations","MooCow"];
     var windData = [ "N", "NNW"];
     var sideEffects = [];
 
@@ -39,13 +37,8 @@ var formDataItems = [
                 { dataField     : "phoneNumber",        editorOptions: { disabled: false},},
                 { dataField     : "houseNumber",        editorOptions: { disabled: false},},
                 { dataField     : "streetName",         editorOptions: { disabled: false},},
-                { dataField     : "suburbName",         editorType: "dxSelectBox", editorOptions: {
-      dataSource: jobArrayPODTab,
-      valueExpr: 'guid',
-      displayExpr: 'name',      
-      width: 200,
-    }},
-/*                { dataField     : "estateComplex",      editorType: "dxSelectBox", editorOptions: { items: estateData, value: ""}},
+                { dataField     : "suburbName",         editorType: "dxSelectBox", editorOptions: { items: suburbData, value: ""}},
+                { dataField     : "estateComplex",      editorType: "dxSelectBox", editorOptions: { items: estateData, value: ""}},
                 { dataField     : "estateOther",        editorOptions: { disabled: false},},
                 { dataField     : "windDirection",      editorType: "dxSelectBox", editorOptions: { items: windData, value: ""},validationRules: [{ type: "required", message: "Wind Direction is required"}]},
                 { dataField     : "sideEffects",        editorType: "dxCheckBox",  editorOptions: { items: sideEffects, value: ""},validationRules: [{ type: "required", message: "Side Effects required"}]},
@@ -53,9 +46,8 @@ var formDataItems = [
                 { dataField     : "smellType",          editorType: "dxSelectBox", editorOptions: { items: windData, value: ""},validationRules: [{ type: "required", message: "Smell is required"}]},
                 { dataField     : "otherEffects",       editorType: "dxTextArea",  editorOptions: { disabled: false},},
                 { dataField     : "fileAttachment",     editorType: "dxFileUploader",  editorOptions: { disabled: false},},
-                { dataField     : "incidentDate",       editorType: "dxDateBox",  editorOptions: { type: "datetime", value: now},},
-                { dataField     : "authorityRating",    editorType: "dxSlider",   editorOptions: { min:0, max:5, tooltip: {enabled: true,showMode:"always",position:"bottom"}},},
-*/
+                { dataField     : "incidentDate",       editorType: "dxDateBox",  editorOptions: { type: "datetime", value: now},width:200},
+                { dataField     : "authorityRating",    editorType: "dxSlider",   editorOptions: { min:0, max:5,width:200, tooltip: {enabled: true,showMode:"always",position:"bottom"}},},
 ];
 
 var navData = [{

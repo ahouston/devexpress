@@ -41,7 +41,6 @@ var initDashboard = function() {
     console.log("Making form!");
     
 
-
     var form = $("#form").dxForm({
 				formData: formFields,
 				readOnly: false,

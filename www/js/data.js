@@ -46,19 +46,20 @@ var formDataItems = [
                 { dataField     : "smellType",          editorType: "dxSelectBox", editorOptions: { items: windData, value: ""},validationRules: [{ type: "required", message: "Smell is required"}]},
                 { dataField     : "otherEffects",       editorType: "dxTextArea",  editorOptions: { disabled: false},},
                 { dataField     : "fileAttachment",     editorType: "dxFileUploader",  editorOptions: { disabled: false},},
-                { dataField     : "incidentDate",       editorType: "dxDateBox",  editorOptions: { type: "datetime", value: now},width:200},
-                { dataField     : "authorityRating",    editorType: "dxSlider",   editorOptions: { min:0, max:5,width:200, tooltip: {enabled: true,showMode:"always",position:"bottom"}},},
+                { dataField     : "incidentDate",       editorType: "dxDateBox",  editorOptions: { type: "datetime", value: now},width:"90%"},
+                { dataField     : "authorityRating",    editorType: "dxSlider",   editorOptions: { min:0, max:5,width:"90%", tooltip: {enabled: true,showMode:"always",position:"bottom"}},},
 ];
 
 var navData = [{
-        text: "Contacts",
-        icon: "user"
+        text: "Complain",
+        icon: "globe"
     }, {
-        text: "Missed",
-        icon: "clock",
+        text: "Places",
+        icon: "map",
         badge: 3
     }, {
-        text: "Favorites",
-        icon: "favorites"
+        text: "People",
+        icon: "user",
+        badge: 2
     }
 ];

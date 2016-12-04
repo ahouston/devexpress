@@ -34,21 +34,9 @@ var initDashboard = function() {
     var list = $("#list").dxList({ 
         dataSource: listData[0].data,
         itemTemplate: $("#item-template")
-    }).dxList("instance");
+    }).dxList("instance");  
     var lastIndex = 0;
-    $("#navbar").dxNavBar({
-            dataSource: navData,
-            selectedIndex: 0,
-                onItemClick: function(e) {
-                  var newIndex = e.component.option("selectedIndex");
-                  var lastDivId = tabPages[lastIndex].id;
-                  var newDivId = tabPages[newIndex].id;
-                  $(lastDivId).hide();
-                  $(newDivId).show();
-                  lastIndex = newIndex;
-                   console.log("Selected tab",e.component.option("selectedIndex"));
-            },
-    });
+    
     console.log("Making form!");
     
 
@@ -62,6 +50,19 @@ var initDashboard = function() {
 				items: formDataItems,
 			}).dxForm("instance");  
   
+  $("#navbar").dxNavBar({
+            dataSource: navData,
+            selectedIndex: 0,
+                onItemClick: function(e) {
+                  var newIndex = e.component.option("selectedIndex");
+                  var lastDivId = tabPages[lastIndex].id;
+                  var newDivId = tabPages[newIndex].id;
+                  $(lastDivId).hide();
+                  $(newDivId).show();
+                  lastIndex = newIndex;
+                   console.log("Selected tab",e.component.option("selectedIndex"));
+            },
+    });
   
 }
 

@@ -1,3 +1,17 @@
+.holder {
+    height: 90%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.banner {
+    height: 15;
+}
+
 .info {
     margin-top: 5px;
     height: 78px;

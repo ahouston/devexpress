@@ -1,3 +1,17 @@
+var placeDataSource = new DevExpress.data.DataSource({
+    store: [],
+    map: function (dataItem) {
+        return dataItem;
+    }
+});
+
+var peopleDataSource = new DevExpress.data.DataSource({
+    store: [],
+    map: function (dataItem) {
+        return dataItem;
+    }
+});
+
 var contacts = [
     { name: "Barbara J. Coggins", phone: "512-964-2757", image: "img/employees/04.png", email: "BarbaraJCoggins@rhyta.com", category: "Favorites" },
     { name: "Leslie S. Alcantara", phone: "360-684-1334", image: "img/employees/01.png", email: "LeslieSAlcantara@teleworm.us", category: "Missed" },
@@ -14,21 +28,11 @@ var formFields = [ "firstName", "lastName", "emailAddress", "phoneNumber", "hous
 
 var now = new Date();
 
-    var suburbData = ["Kloof","Hillcrest"];
-    var estateData = ["Plantations","MooCow"];
-    var windData = [ "N", "NNW"];
-    var sideEffects = [];
-
-var jobArrayPODTab = [{
-  guid: 0,
-  name: "<<New Order>>"
-}, {
-  guid: 1,
-  name: "Job 1"
-}, {
-  guid: 2,
-  name: "Job 2"
-}];
+    var suburbData  = ["Hillcrest","Winston Park","Gillitts","St Helier","Kloof","Botha&#039;s Hill","Waterfall","Assagay","Summerveld","Shongweni","Kwandengezi","Dassenhoek","Alverstone","Hammarsdale","Forest Hills","Monteseel","Everton","Crestholme","Salem","Westriding","Monteseel","Hammarsdale","Other"];
+    var estateData  = ["Plantations","Greenvale Village","Manorfields","Langford","Augusta","The Willows","Sunshine Valley","Balmoral","Camelot","Silver Oaks","Queensbridge","Aintree Lane","Emoyeni Heights","Shongweni Heights","101 Acutts","Clifton Hill","Cotswold Downs","Kirtlington Park","Le Domaine","Other"];
+    var windData    = ["N","NNE","NNE","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","Undetermined" ];
+    var sideEffects = ["Nausea / Stomach pain","Vomiting","Headaches","Sinusitis / Runny nose","Hayfever","Dizziness","Eczema/ Tingling skin","Irregular or rapid heart rate","Asthma/ Tight chest","Drowsiness ","Burning / Itchy eyes","Coughing","Sore throat","Nuisance odour"];
+    var smellData   = ["Refinery","Burning","Chemical"];
 
 var formDataItems = [
                 { dataField     : "firstName",          editorOptions: { disabled: false},},
@@ -41,14 +45,17 @@ var formDataItems = [
                 { dataField     : "estateComplex",      editorType: "dxSelectBox", editorOptions: { items: estateData, value: ""}},
                 { dataField     : "estateOther",        editorOptions: { disabled: false},},
                 { dataField     : "windDirection",      editorType: "dxSelectBox", editorOptions: { items: windData, value: ""},validationRules: [{ type: "required", message: "Wind Direction is required"}]},
-                { dataField     : "sideEffects",        editorType: "dxCheckBox",  editorOptions: { items: sideEffects, value: ""},validationRules: [{ type: "required", message: "Side Effects required"}]},
+                { dataField     : "sideEffects",        editorType: "dxTagBox",  editorOptions: { items: sideEffects, value: ""},validationRules: [{ type: "required", message: "Side Effects required"}]},
                 { dataField     : "otherEffects",       editorOptions: { disabled: false},},
-                { dataField     : "smellType",          editorType: "dxSelectBox", editorOptions: { items: windData, value: ""},validationRules: [{ type: "required", message: "Smell is required"}]},
+                { dataField     : "smellType",          editorType: "dxSelectBox", editorOptions: { items:smellData, value: ""},validationRules: [{ type: "required", message: "Smell is required"}]},
                 { dataField     : "otherEffects",       editorType: "dxTextArea",  editorOptions: { disabled: false},},
                 { dataField     : "fileAttachment",     editorType: "dxFileUploader",  editorOptions: { disabled: false},},
-                { dataField     : "incidentDate",       editorType: "dxDateBox",  editorOptions: { type: "datetime", value: now},width:"90%"},
-                { dataField     : "authorityRating",    editorType: "dxSlider",   editorOptions: { min:0, max:5,width:"90%", tooltip: {enabled: true,showMode:"always",position:"bottom"}},},
+                { dataField     : "incidentDate",       editorType: "dxDateBox",  editorOptions: { type: "datetime", width:"150px", value: now},},
+                { dataField     : "authorityRating",    editorType: "dxSlider",   editorOptions: { min:0, max:5, tooltip: {enabled: true,showMode:"always",position:"bottom"}},},
 ];
+
+var numPlaces = 0;
+var numPeople = 0;
 
 var navData = [{
         text: "Complain",
@@ -56,10 +63,10 @@ var navData = [{
     }, {
         text: "Places",
         icon: "map",
-        badge: 3
+        badge: numPlaces,
     }, {
         text: "People",
         icon: "user",
-        badge: 2
+        badge: numPeople,
     }
 ];

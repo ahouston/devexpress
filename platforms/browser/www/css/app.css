@@ -1,15 +1,16 @@
 .holder {
-    height: 90%;
+    height: 80%;
     width: 100%;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 30;
+    bottom: -10;
+    padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
 }
 
 .banner {
-    height: 15;
+    height: 60px;
 }
 
 .info {

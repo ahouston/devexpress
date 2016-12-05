@@ -27,7 +27,7 @@ var tabPages = [
     { id: "#people"}
 ]
 
-var list;
+var lastIndex = 0;
 
 var initDashboard = function() {
   
@@ -35,7 +35,32 @@ var initDashboard = function() {
         dataSource: listData[0].data,
         itemTemplate: $("#item-template")
     }).dxList("instance");  
-    var lastIndex = 0;
+
+    $("#placeList").dxList({
+      dataSource: placeDataSource,
+      itemTemplate: function (itemData, itemIndex, itemElement) {
+        itemElement.append('<p style="font-size:larger;"><b>' + itemData.place_name + '</b></p>');
+        itemElement.append('<p>Address:<i>' + itemData.street_number + ' ' + itemData.street_name +' </i></p>');
+        if (itemData.suburb)        { itemElement.append('<p>Suburb:<i>' + itemData.suburb + ' </i></p>'); }
+        if (itemData.complex_name)  { itemElement.append('<p>Complex:<i>' + itemData.complex_name + ' </i></p>'); }
+        if (itemData.gps)           { itemElement.append('<p>GPS Coordinates:<i>' + itemData.gps + ' </i></p>'); }
+        
+      },
+      onContentReady: function() {
+      }
+    });
+    
+    $("#peopleList").dxList({
+      dataSource: peopleDataSource,
+      itemTemplate: function (itemData, itemIndex, itemElement) {
+        itemElement.append('<p style="font-size:larger;"><b>' + itemData.person_name + '</b></p>');
+        itemElement.append('<p>Name:<i>' + itemData.first_name + ' ' + itemData.last_name +' </i></p>');
+        if (itemData.tel_number)        { itemElement.append('<p>Telephone:<i>' + itemData.tel_number + ' </i></p>');}
+        if (itemData.email_address)     { itemElement.append('<p>Email:<i>' + itemData.email_address + ' </i></p>'); }
+      },
+      onContentReady: function() {
+      }
+    });
     
     console.log("Making form!");
     
@@ -50,7 +75,7 @@ var initDashboard = function() {
 				items: formDataItems,
 			}).dxForm("instance");  
   
-  $("#navbar").dxNavBar({
+    $("#navbar").dxNavBar({
             dataSource: navData,
             selectedIndex: 0,
                 onItemClick: function(e) {

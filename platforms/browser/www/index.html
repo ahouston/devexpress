@@ -49,8 +49,19 @@
         
         <div class='banner'><img class='banner' src='img/uha.png'></div>
         <div id="form" class='holder' style="overflow: scroll;"></div>
-        <div id="places" class='holder' style="overflow: scroll; display: none;"><div id="placeList"></div></div>
-        <div id="people" class='holder' style="overflow: scroll; display: none;"><div id="peopleList"></div></div></div>
+        <div id="places" class='holder' style="overflow: scroll; display: none;">
+            <div id="placeToolbar"></div>
+            <div id="placeAdd" style='display:none'>
+                <div id="locationField" style="display:none; margin-bottom:20px;">
+                    <input id="autocomplete" style="padding-left: 5px; margin-top: 5px; width: 93%; min-height: 30px; border-radius: 4px;" placeholder="Start Typing your address" onFocus="geolocate()" type="text"></input>
+                </div>
+                <div id="placeForm" style='width: 100%; padding-right: 15px;'></div>
+                <div id="placeAddButton" style='margin-top: 10px'></div>
+            </div>
+            <div id="placeList"></div>
+        </div>
+        
+        <div id="people" class='holder' style="overflow: scroll; display: none;"><div id="peopleToolbar"></div><div id="peopleList"></div></div>
         <div id="navbar"></div>
     </div>
     

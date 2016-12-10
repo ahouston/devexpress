@@ -39,11 +39,25 @@ var app = {
         app.receivedEvent('deviceready');
         DevExpress.ui.themes.current('ios7.default');
         db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
+        
+        db.transaction(createDB, errorCB, successCB);
         db.transaction(populateDB, errorCB, successCB);
         db.transaction(fetchPlaces,errorCB);
         db.transaction(fetchPeople,errorCB);
         initDashboard();
+        
+        // Try to load the Google API Javascript
+        
+        $.getScript( "https://maps.googleapis.com/maps/api/js?key=AIzaSyDz8ImBTm4f666p-T_jY85t-ahhR3ivJmw&libraries=places&callback=initAutocomplete" )
+        .done(function( script, textStatus ) {
+                console.log("Loaded Google API JS. Working in online mode.");
+                $("#locationField").toggle();
+        })
+        .fail(function( jqxhr, settings, exception ) {
+             console.log("Failed to load Google API JS. Working in offline mode.");
+        });
 
+            
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -65,7 +79,10 @@ var app = {
         tx.executeSql('SELECT * FROM places', [], placesSuccess, errorCB);
     }
     function placesSuccess(tx, results) {
+        
         var len = results.rows.length;
+        console.log(placeDataSource);
+        placeDataSource.clear();
         numPlaces = len;
         console.log("table: " + len + " rows found. numPlaces=",numPlaces);
         var navbar = $("#navbar").dxNavBar('instance');
@@ -75,7 +92,8 @@ var app = {
             navbar.repaint();
         }
         for (var i=0; i<len; i++){
-            placeDataSource.store().insert(results.rows.item(i));
+            //placeDataSource.store().insert(results.rows.item(i));
+            placeDataSource.insert(results.rows.item(i));
             console.log("Results:",results.rows.item(i),"Row = " + i + " ID = " + results.rows.item(i).id + " Name =  " + results.rows.item(i).place_name);
         }
         $("#placeList").dxList("instance").reload();
@@ -114,18 +132,24 @@ var app = {
 
     function populateDB(tx) {
          
-         tx.executeSql('DROP TABLE IF EXISTS places');
-         tx.executeSql('DROP TABLE IF EXISTS people');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS places (id int primary key not null,place_name text, street_number text,street_name text,suburb text,complex_name text,gps text)');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS people (id int primary key not null,person_name text, first_name text,last_name text,tel_number text,email_address text)');
-         tx.executeSql('INSERT INTO places VALUES ("","Home","21","Lynwood Road","Kloof","","")');
-         tx.executeSql('INSERT INTO people VALUES ("","Me","Allan","Houston","0836307885","ahouston@gmail.com")');
+        // tx.executeSql('INSERT INTO places VALUES ("","12 Old Main Rd","12","Old Main Road","Hillcrest","","","-29.786757,30.77221099999997","SSW","4981","12 Old Main Rd")');
+       tx.executeSql('INSERT INTO places (place_name, street_number,street_name,suburb,complex_name,complex_other,gps,wind_direction, distance, google_address) VALUES ("Home","21","Lynwood Road","Kloof","","","-29.0001,312232","SSW","6994","21 Lynwood Rd, Kloof")');
+       //tx.executeSql('INSERT INTO people VALUES ("","Me","Allan","Houston","0836307885","ahouston@gmail.com")');
     }
+    
+    function createDB(tx){
+        console.log("Creating DB tables...");
+        tx.executeSql('DROP TABLE IF EXISTS places');
+        tx.executeSql('DROP TABLE IF EXISTS people');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS places (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,place_name text, street_number text,street_name text,suburb text,complex_name text, complex_other text,gps text,wind_direction text, distance text, google_address text)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS people (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,person_name text, first_name text,last_name text,tel_number text,email_address text)');
+    }
+    
 
     // Transaction error callback
     //
     function errorCB(tx, err) {
-        console.error("Error processing SQL: "+err);
+        console.error("Error processing SQL: ",tx,"err:",err);
     }
 
     // Transaction success callback

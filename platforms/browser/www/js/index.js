@@ -19,6 +19,7 @@
 
 var db;
 
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -41,9 +42,11 @@ var app = {
         db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
         
         db.transaction(createDB, errorCB, successCB);
-        db.transaction(populateDB, errorCB, successCB);
+        //db.transaction(populateDB, errorCB, successCB);
         db.transaction(fetchPlaces,errorCB);
         db.transaction(fetchPeople,errorCB);
+        db.transaction(fetchReports,errorCB);
+        db.transaction(fetchUnsyncedReports,errorCB);
         initDashboard();
         
         // Try to load the Google API Javascript
@@ -62,18 +65,11 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
-        //var listeningElement = parentElement.querySelector('.listening');
-        //var receivedElement = parentElement.querySelector('.received');
-
-        //listeningElement.setAttribute('style', 'display:none;');
-        //receivedElement.setAttribute('style', 'display:block;');
-
-        //console.log('Received Event: ' + id);
     }
     
-  
-    
 };
+
+    /* Fetch all the places from the database */
 
     function fetchPlaces(tx) {
         tx.executeSql('SELECT * FROM places', [], placesSuccess, errorCB);
@@ -100,11 +96,14 @@ var app = {
         
     }
     
+     /* Fetch all the people from the database */
+    
     function fetchPeople(tx) {
         tx.executeSql('SELECT * FROM people', [], peopleSuccess, errorCB);
     }
     function peopleSuccess(tx, results) {
         var len = results.rows.length;
+        peopleDataSource.clear();
         numPeople = len;
         console.log("People table: " + len + " rows found. numPeople=",numPeople);
         var navbar = $("#navbar").dxNavBar('instance');
@@ -114,12 +113,53 @@ var app = {
             navbar.repaint();
         }
         for (var i=0; i<len; i++){
-            peopleDataSource.store().insert(results.rows.item(i));
+            peopleDataSource.insert(results.rows.item(i));
             console.log("Results:",results.rows.item(i),"Row = " + i + " ID = " + results.rows.item(i).id + " Name =  " + results.rows.item(i).person_name);
         }
         $("#peopleList").dxList("instance").reload();
         
     }
+    
+    /* Fetch all the reports from the database */
+    
+    
+    function fetchReports(tx) {
+        tx.executeSql('SELECT * FROM reports', [], reportsSuccess, errorCB);
+    }
+    function reportsSuccess(tx, results) {
+        var len = results.rows.length;
+        reportDataSource.clear();
+        numReports = len;
+        console.log("Reports table: " + len + " rows found. numReports=",numReports);
+        var navbar = $("#navbar").dxNavBar('instance');
+        if(!(typeof(navbar.option()) === 'undefined')) {
+            console.log("NavBar:",navbar.option());
+            navbar.option().items[3].badge = numReports;
+            navbar.repaint();
+        }
+        for (var i=0; i<len; i++){
+            reportDataSource.insert(results.rows.item(i));
+            console.log("Results:",results.rows.item(i),"Row = " + i + " ID = " + results.rows.item(i).id + " Report Date =  " + results.rows.item(i).report_date);
+        }
+        $("#reportList").dxList("instance").reload();
+        
+    }
+    
+    /* Fetch the unsynced reports from the DB for uploading */
+    
+    function fetchUnsyncedReports(tx) {
+        tx.executeSql('SELECT * FROM reports where syncSuccess==0', [], reportsUnsyncedSuccess, errorCB);
+    }
+    function reportsUnsyncedSuccess(tx, results) {
+        var len = results.rows.length;
+        numUnsyncedReports = len;
+        console.log("Unsynced Reports table: " + len + " rows found. numReports=",numReports);
+        for (var i=0; i<len; i++){
+            reportUnsyncedDataSource.store().insert(results.rows.item(i));
+            console.log("Results:",results.rows.item(i),"Row = " + i + " ID = " + results.rows.item(i).id + " Report Date =  " + results.rows.item(i).report_date);
+        }
+    }
+    
     
     
     function querySuccess(tx, results) {
@@ -139,10 +179,12 @@ var app = {
     
     function createDB(tx){
         console.log("Creating DB tables...");
-        tx.executeSql('DROP TABLE IF EXISTS places');
-        tx.executeSql('DROP TABLE IF EXISTS people');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS places (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,place_name text, street_number text,street_name text,suburb text,complex_name text, complex_other text,gps text,wind_direction text, distance text, google_address text)');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS people (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,person_name text, first_name text,last_name text,tel_number text,email_address text)');
+        //tx.executeSql('DROP TABLE IF EXISTS places');
+        //tx.executeSql('DROP TABLE IF EXISTS people');
+        //tx.executeSql('DROP TABLE IF EXISTS reports');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS places (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,placeName text, houseNumber text,streetName text,suburbName text,complexName text, complexOther text,gpsCoords text, dumpDirection text, dumpDistance text, googleAddress text)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS people (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,firstName text,lastName text,phoneNumber text,emailAddress text,ageRange text)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS reports (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,firstName text,lastName text,phoneNumber text,emailAddress text,placeName text, houseNumber text,streetName text,suburbName text,complexName text, complexOther text,gpsCoords text, dumpDirection text, dumpDistance text, googleAddress text,syncSuccess int,syncDate datetime)');
     }
     
 
